@@ -12,7 +12,7 @@ class Transistor<I: Input, SD: SharedData>(private val stateMapping: Map<State<S
         return if (transitions != null) {
             logger.debug { "Calling exit function of ${currentState.getName()}" }
             currentState.exit(sharedData)
-            currentState = transitions.first { it.shouldChangeState(input) }.getNextState()
+            currentState = transitions.first { it.shouldChangeState(input, sharedData) }.getNextState()
             logger.debug { "Calling entry function of ${currentState.getName()}" }
             currentState.entry(sharedData)
             return currentState
