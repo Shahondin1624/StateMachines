@@ -16,12 +16,18 @@ data class InitialState<SD: SharedData>(val nextState: State<SD>) : State<SD> {
 
 object FinalState : State<SharedData> {
     override fun getName(): String = javaClass.simpleName
+    fun <SD: SharedData> getTypeCasted(): State<SD> = FinalState as State<SD>
 }
 
-class DefaultState<SD: SharedData>(
+object ErrorState: State<SharedData> {
+    override fun getName(): String = javaClass.simpleName
+    fun <SD: SharedData> getTypeCasted(): State<SD> = ErrorState as State<SD>
+}
+
+open class DefaultState<SD: SharedData>(
     private val name: String,
-    private val entryFunction: (SD) -> Unit,
-    private val exitFunction: (SD) -> Unit
+    private val entryFunction: (SD) -> Unit = {},
+    private val exitFunction: (SD) -> Unit = {},
 ) : State<SD> {
     override fun getName() = name
 
